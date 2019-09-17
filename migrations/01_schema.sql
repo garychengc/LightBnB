@@ -1,9 +1,9 @@
-DROP TABLE IF EXISTS rates;
-DROP TABLE IF EXISTS properties;
-DROP TABLE IF EXISTS reservations;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS property_reviews;
-DROP TABLE IF EXISTS guest_reviews;
+DROP TABLE rates CASCADE;
+DROP TABLE properties CASCADE;
+DROP TABLE reservations CASCADE;
+DROP TABLE users CASCADE;
+DROP TABLE property_reviews CASCADE;
+DROP TABLE guest_reviews CASCADE;
 
 
 
