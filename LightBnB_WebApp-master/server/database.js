@@ -1,14 +1,6 @@
-const { Pool } = require("pg");
-
-const pool = new Pool({
-  user: "vagrant",
-  password: "123",
-  host: "localhost",
-  database: "lightbnb"
-});
-
-const properties = require("./json/properties.json");
-const users = require("./json/users.json");
+const db = require('../db/index');
+// const properties = require("./json/properties.json");
+// const users = require("./json/users.json");
 
 /// Users
 
@@ -19,7 +11,7 @@ const users = require("./json/users.json");
  */
 const getUserWithEmail = function(email) {
   const queryString = `SELECT * FROM users WHERE email = $1;`;
-  return pool
+  return db
     .query(queryString, [email])
     .then(res => {
       return res.rows ? res.rows[0] : null;
@@ -45,7 +37,7 @@ exports.getUserWithEmail = getUserWithEmail;
  */
 const getUserWithId = function(id) {
   const queryString = `SELECT * FROM users WHERE id = $1;`;
-  return pool
+  return db
     .query(queryString, [id])
     .then(res => {
       return res.rows ? res.rows[0] : null;
@@ -70,7 +62,7 @@ const addUser = function(user) {
 
   const inputs = [user.name, user.email, user.password];
 
-  return pool
+  return db
     .query(queryString, inputs)
     .then(res => {
       return res.rows ? res.rows[0] : null;
@@ -106,7 +98,7 @@ const getAllReservations = function(guest_id, limit = 10) {
 
   const inputs = [guest_id, limit];
 
-  return pool
+  return db
     .query(queryString, inputs)
     .then(res => {
       return res.rows ? res.rows : null;
@@ -189,7 +181,7 @@ const getAllProperties = function(options, limit = 10) {
   // console.log(options);
   // console.log(queryString, queryParams);
 
-  return pool
+  return db
     .query(queryString, queryParams)
     .then(res => res.rows)
     .catch(error => console.error(error.stack));
@@ -235,11 +227,10 @@ const addProperty = function(property) {
     inputs.push(property[key]);
   }
 
-  return pool
+  return db
     .query(queryString, inputs)
     .then(res => {
-      console.log(res);
-      return res.rows ? res.rows[0] : null;
+      return res.rows ? res.rows : null;
     })
     .catch(error => console.error(error.stack));
 
